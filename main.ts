@@ -36,4 +36,11 @@ if (typeof parsed !== 'object' || parsed === null || !('url' in parsed)) {
   process.exit(1);
 }
 
+// The address itself has to be usable: an empty url names no post.
+const address = (parsed as { url: unknown }).url;
+if (typeof address !== 'string' || address.length === 0) {
+  console.error('POST.json url must be a non-empty string');
+  process.exit(1);
+}
+
 writeFileSync(target, post);
